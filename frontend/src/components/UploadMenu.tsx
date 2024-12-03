@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { BACKEND_URL } from "../config";
 
 export default function MenuUpload() {
   const [menuImages, setMenuImages] = useState<File[]>([]); // Updated for multiple files
@@ -30,7 +31,7 @@ export default function MenuUpload() {
         formData.append("image", file); // Use 'image' as the key for each file
         formData.append("title", title);
 
-        return axios.post("http://localhost:4000/api/v1/restaurant/menu/upload", formData, {
+        return axios.post(`${BACKEND_URL}/api/v1/restaurant/menu/upload`, formData, {
           headers: {
             Authorization: localStorage.getItem("token"),
             "Content-Type": "multipart/form-data",
