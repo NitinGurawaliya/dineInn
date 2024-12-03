@@ -8,7 +8,11 @@ export default {
     extend: {
       colors:{
         'custom-green-light': '#c6e2b3',
-      }
+      },
+      container: {
+        center: true,
+        padding: "2rem",
+      },
     },
   },
   plugins: [],
