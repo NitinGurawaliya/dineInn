@@ -26,7 +26,7 @@ export default function SignUp() {
 
     localStorage.setItem("token",`Bearer ${data.token}`)
     localStorage.setItem("userId",userId);
-    navigate("/myMenu")
+    navigate("/upload/menu")
     
   }
 
