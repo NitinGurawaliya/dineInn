@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../config";
 
 interface MenuItem {
   id: number;
@@ -18,7 +19,7 @@ interface MenuItem {
     console.log("inside my menucomp ")
     const restaurantId = localStorage.getItem("userId");
     const res = await axios.get(
-      `http://localhost:4000/api/v1/restaurant/menu/${restaurantId}`,
+      `${BACKEND_URL}/api/v1/restaurant/menu/${restaurantId}`,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
