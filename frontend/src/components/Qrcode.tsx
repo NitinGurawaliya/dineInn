@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "../config";
 
 const Qrcode = () => {
   const [qrCode, setQrcode] = useState<string | null>(null);
@@ -8,7 +9,7 @@ const Qrcode = () => {
     const id = localStorage.getItem("userId");
 
     const res = await axios.get(
-      `http://localhost:4000/api/v1/restaurant/generate-qr-code/${id}`,
+      `${BACKEND_URL}/api/v1/restaurant/generate-qr-code/${id}`,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
