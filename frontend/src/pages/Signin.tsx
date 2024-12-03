@@ -12,7 +12,7 @@ export default function SignUp() {
 
   async function SigninHandler() {
     console.log("hi")
-    const res = await axios.post("http://localhost:4000/api/v1/restaurant/signin",{
+    const res = await axios.post("https://dineinn.onrender.com/api/v1/restaurant/signin",{
       email,
       password
     })
