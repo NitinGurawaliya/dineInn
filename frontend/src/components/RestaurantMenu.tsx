@@ -31,7 +31,7 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-    <div className="min-h-screen bg-white  p-4 md:p-10">
+    <div className="min-h-screen bg-white  p-4 md:p-b-4">
       <div className="max-w-6xl mx-auto">
         {/* Restaurant Name */}
         <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 md:mb-12 text-orange-800 font-serif drop-shadow-lg">
