@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../config';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +13,7 @@ export default function SignUp() {
 
   async function SigninHandler() {
     console.log("hi")
-    const res = await axios.post("https://dineinn.onrender.com/api/v1/restaurant/signin",{
+    const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signin`,{
       email,
       password
     })
