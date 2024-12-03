@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "./Footer";
+import { BACKEND_URL } from "../config";
 
 interface MenuItem {
   id: number;
@@ -19,7 +20,7 @@ const RestaurantMenu = () => {
   const { id } = useParams();
 
   async function resMenu() {
-    const res = await axios.get(`http://localhost:4000/api/v1/restaurant/${id}`);
+    const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
     setMenuItems(res.data.menus);
     setRestaurantName(res.data.resName.restaurantName);
   }
@@ -33,8 +34,8 @@ const RestaurantMenu = () => {
     <div className="min-h-screen bg-white  p-4 md:p-10">
       <div className="max-w-6xl mx-auto">
         {/* Restaurant Name */}
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-8 md:mb-12 text-orange-800 font-serif drop-shadow-lg">
-          {restaurantName}
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 md:mb-12 text-orange-800 font-serif drop-shadow-lg">
+          {restaurantName.toUpperCase()}
         </h1>
 
         {/* Menu Grid */}
