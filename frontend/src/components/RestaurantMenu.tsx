@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "./Footer";
 import { BACKEND_URL } from "../config";
+import BottomNavbar from "./BottomNav";
 
 interface MenuItem {
   id: number;
@@ -66,6 +67,7 @@ const RestaurantMenu = () => {
       </div>
     </div>
     <Footer />
+    <BottomNavbar />
     </div>
   );
 };
