@@ -35,6 +35,7 @@ restaurantRouter.use(express.urlencoded({ limit: "10mb", extended: true }));
 restaurantRouter.post("/signup", signup);
 restaurantRouter.post("/signin", signin);
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
+restaurantRouter.post("/details",authMiddleware,upload.single('image'))
 restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
 restaurantRouter.get("/menu/:restaurantId",authMiddleware,myRestaurantMenu);
 restaurantRouter.get("/:restaurantId",restaurantMenu);
