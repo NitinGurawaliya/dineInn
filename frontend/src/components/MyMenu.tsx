@@ -37,6 +37,7 @@ interface MenuItem {
 
   return (
     <div className="p-2 md:p-8">
+      
       <div className="relative mb-6 flex items-center">
         {/* Centered Restaurant Name */}
         <h1 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold">
