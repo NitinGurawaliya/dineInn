@@ -128,6 +128,17 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
       res.status(500).json({ msg: "Internal server error" });
     }
   };
+
+
+  export const RestaurantDetails:RequestHandler = async(req,res):Promise<void> =>{
+
+    
+
+
+
+
+
+  }
   
   
 
@@ -164,7 +175,7 @@ export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
 export const qrcodeGeneration:RequestHandler = async(req,res) :Promise<void> =>{
     const restaurantId = parseInt(req.params.restaurantId);
 
-    const frontendUrl = `https://dine-inn.vercel.app/menu/${restaurantId}`
+    const frontendUrl = `http://localhost:5173/menu/${restaurantId}`
 
     QRCode.toDataURL(frontendUrl,function(err,url){
         if(err) {
