@@ -1,9 +1,12 @@
 {
     "cSpell.words": [
+        "autoincrement",
         "BADREQ",
         "cloudinary",
+        "datasource",
         "datasources",
         "menudata",
-        "qrcode"
+        "qrcode",
+        "upiqr"
     ]
 }
