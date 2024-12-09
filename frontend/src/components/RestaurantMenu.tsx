@@ -51,6 +51,13 @@ const RestaurantMenu = () => {
     slidesToScroll: 1,
     responsive: [
       {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
@@ -69,16 +76,15 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-white p-4 md:p-b-4">
+      <div className="min-h-screen bg-gray-100 p-4">
         <div className="max-w-6xl mx-auto">
           {/* Restaurant Name */}
-          <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
+          <h1 className="text-4xl font-bold text-center mb-4 text-orange-700">
             {restaurantName.toUpperCase()}
           </h1>
-
-          <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
-            📍 {location.toUpperCase()}
-          </h1>
+          <h2 className="text-lg text-center mb-6 text-gray-600">
+            📍 {location}
+          </h2>
 
           {/* Image Carousel */}
           <Slider {...slickSettings}>
@@ -89,24 +95,28 @@ const RestaurantMenu = () => {
                   setIsGalleryOpen(true);
                   setCurrentImageIndex(index);
                 }}
-                className="cursor-pointer"
+                className="cursor-pointer p-2"
               >
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="rounded-lg shadow-md"
-                />
-                <h2 className="text-center mt-2">{item.title}</h2>
+                <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-[300px] object-cover"
+                  />
+                  <div className="absolute bottom-0 bg-black bg-opacity-50 text-white text-center w-full py-2">
+                    {item.title}
+                  </div>
+                </div>
               </div>
             ))}
           </Slider>
 
           {/* Full-Screen Image Gallery */}
           {isGalleryOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-              <div className="relative w-full max-w-4xl">
+            <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+              <div className="relative w-full max-w-5xl">
                 <button
-                  className="absolute top-2 right-2 text-white text-lg"
+                  className="absolute top-4 right-4 text-white bg-gray-700 hover:bg-gray-900 px-3 py-1 rounded-md"
                   onClick={() => setIsGalleryOpen(false)}
                 >
                   ✖ Close
@@ -118,6 +128,7 @@ const RestaurantMenu = () => {
                   showFullscreenButton={false}
                   showPlayButton={false}
                   onSlide={(index) => setCurrentImageIndex(index)}
+                  additionalClass="bg-black rounded-lg"
                 />
               </div>
             </div>
