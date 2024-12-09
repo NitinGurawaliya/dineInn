@@ -1,11 +1,17 @@
-'use client'
+'use client';
 
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ImageGallery from "react-image-gallery";
+import Slider from "react-slick";
 import Footer from "./Footer";
 import { BACKEND_URL } from "../config";
 import BottomNavbar from "./BottomNav";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 interface MenuItem {
   id: number;
@@ -19,7 +25,7 @@ const RestaurantMenu = () => {
   const [restaurantName, setRestaurantName] = useState("");
   const [location, setLocation] = useState("");
   const [contact, setContact] = useState("");
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { id } = useParams();
@@ -36,26 +42,30 @@ const RestaurantMenu = () => {
     resMenu();
   }, []);
 
-  const openFullscreen = (index: number) => {
-    setCurrentImageIndex(index);
-    setIsFullscreen(true);
+  // Settings for react-slick
+  const slickSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
-  const closeFullscreen = () => {
-    setIsFullscreen(false);
-  };
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      (prevIndex + 1) % menuItems.length
-    );
-  };
-
-  const handlePreviousImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      (prevIndex - 1 + menuItems.length) % menuItems.length
-    );
-  };
+  // Convert images for react-image-gallery
+  const galleryImages = menuItems.map((item) => ({
+    original: item.imageUrl,
+    thumbnail: item.imageUrl,
+    originalTitle: item.title,
+  }));
 
   return (
     <div>
@@ -70,64 +80,50 @@ const RestaurantMenu = () => {
             📍 {location.toUpperCase()}
           </h1>
 
-          {/* Menu Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {/* Image Carousel */}
+          <Slider {...slickSettings}>
             {menuItems.map((item, index) => (
               <div
                 key={item.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105"
-                onClick={() => openFullscreen(index)} // Open fullscreen on click
+                onClick={() => {
+                  setIsGalleryOpen(true);
+                  setCurrentImageIndex(index);
+                }}
+                className="cursor-pointer"
               >
-                {/* Image */}
-                <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
-                  />
-                </div>
-
-                {/* Title */}
-                <div className="p-4 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100">
-                  <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center truncate">
-                    {item.title}
-                  </h2>
-                </div>
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="rounded-lg shadow-md"
+                />
+                <h2 className="text-center mt-2">{item.title}</h2>
               </div>
             ))}
-          </div>
+          </Slider>
+
+          {/* Full-Screen Image Gallery */}
+          {isGalleryOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+              <div className="relative w-full max-w-4xl">
+                <button
+                  className="absolute top-2 right-2 text-white text-lg"
+                  onClick={() => setIsGalleryOpen(false)}
+                >
+                  ✖ Close
+                </button>
+                <ImageGallery
+                  items={galleryImages}
+                  startIndex={currentImageIndex}
+                  showThumbnails={true}
+                  showFullscreenButton={false}
+                  showPlayButton={false}
+                  onSlide={(index) => setCurrentImageIndex(index)}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Fullscreen Image Viewer */}
-      {isFullscreen && menuItems.length > 0 && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-          <button
-            className="absolute top-4 right-4 text-white text-2xl font-bold"
-            onClick={closeFullscreen}
-          >
-            ✖
-          </button>
-          <button
-            className="absolute left-4 text-white text-4xl font-bold"
-            onClick={handlePreviousImage}
-          >
-            ◀
-          </button>
-          <img
-            src={menuItems[currentImageIndex].imageUrl}
-            alt={menuItems[currentImageIndex].title}
-            className="max-w-full max-h-full object-contain"
-          />
-          <button
-            className="absolute right-4 text-white text-4xl font-bold"
-            onClick={handleNextImage}
-          >
-            ▶
-          </button>
-        </div>
-      )}
-
       <Footer />
       <BottomNavbar contact={contact} />
     </div>
