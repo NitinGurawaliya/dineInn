@@ -9,14 +9,18 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [email,setEmail] = useState("");
   const[password,setPassword] = useState("")
-  const[restaurantName,setRestaurantName] = useState("")
+  const[restaurantName,setRestaurantName] = useState("");
+  const [ContactNum,setContactNum] = useState("")
+  const[City,setCity] = useState("")
   const navigate = useNavigate()
 
   async function handleSignup() {
     const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signup`,{
       email,
       password,
-      restaurantName
+      restaurantName,
+      ContactNum,
+      City
     })
 
     const data = res.data;
@@ -80,6 +84,41 @@ export default function SignUp() {
                   name="email"
                   type="email"
                   onChange={(e)=>{setEmail(e.target.value)}}
+                  autoComplete="email"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label  className="block text-sm font-medium text-gray-300">
+                Enter your contact Number 
+              </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  onChange={(e)=>{setContactNum(e.target.value)}}
+                  autoComplete="email"
+                  required
+                  className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                />
+              </div>
+            </div>
+
+
+            <div>
+              <label  className="block text-sm font-medium text-gray-300">
+                Enter your restaurant location
+              </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  onChange={(e)=>{setCity(e.target.value)}}
                   autoComplete="email"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
