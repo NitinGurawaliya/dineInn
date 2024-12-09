@@ -17,6 +17,8 @@ interface MenuItem {
 const RestaurantMenu = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [restaurantName, setRestaurantName] = useState("");
+  const [location,setLocation] = useState("")
+  const [contact,setContact] = useState("")
 
   const { id } = useParams();
 
@@ -24,6 +26,12 @@ const RestaurantMenu = () => {
     const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
     setMenuItems(res.data.menus);
     setRestaurantName(res.data.resName.restaurantName);
+    console.log(location)
+    setLocation(res.data.resName.City);
+    
+    setContact(res.data.resName.ContactNum)
+    console.log(contact)
+
   }
 
   useEffect(() => {
@@ -35,8 +43,12 @@ const RestaurantMenu = () => {
     <div className="min-h-screen bg-white  p-4 md:p-b-4">
       <div className="max-w-6xl mx-auto">
         {/* Restaurant Name */}
-        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 md:mb-12 text-orange-800 font-serif drop-shadow-lg">
+        <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
           {restaurantName.toUpperCase()}
+        </h1>
+
+        <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
+        📍 {location.toUpperCase()}
         </h1>
 
         {/* Menu Grid */}
@@ -67,7 +79,7 @@ const RestaurantMenu = () => {
       </div>
     </div>
     <Footer />
-    <BottomNavbar />
+    <BottomNavbar  contact={contact} />
     </div>
   );
 };
