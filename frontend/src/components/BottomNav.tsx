@@ -6,7 +6,7 @@ interface BottomNavProps{
 
 const BottomNavbar:React.FC<BottomNavProps> = ({contact}) => {
   return (
-    <div className="fixed bottom-0 left-10 right-10 md:left-80 md:right-80 rounded-full  bg-white flex justify-around items-center py-3 shadow-md z-1000">
+    <div className="fixed bottom-0 left-10 right-10 md:left-80 md:right-80 rounded-full  bg-black flex justify-around items-center py-3 shadow-md z-1000">
       <button 
       onClick={() => window.location.href = `tel:${contact}`}
        className="flex flex-col items-center text-black hover:opacity-80">
