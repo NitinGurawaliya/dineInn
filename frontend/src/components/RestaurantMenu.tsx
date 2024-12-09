@@ -19,6 +19,8 @@ const RestaurantMenu = () => {
   const [contact, setContact] = useState("");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const { id } = useParams();
 
@@ -44,15 +46,38 @@ const RestaurantMenu = () => {
   };
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      (prevIndex + 1) % menuItems.length
-    );
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % menuItems.length);
   };
 
   const handlePreviousImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      (prevIndex - 1 + menuItems.length) % menuItems.length
-    );
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + menuItems.length) % menuItems.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart !== null && touchEnd !== null) {
+      const swipeDistance = touchStart - touchEnd;
+
+      // Swipe threshold (minimum swipe distance to register as a swipe)
+      const threshold = 50;
+
+      if (swipeDistance > threshold) {
+        handleNextImage(); // Swipe left
+      } else if (swipeDistance < -threshold) {
+        handlePreviousImage(); // Swipe right
+      }
+    }
+
+    // Reset touch positions
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   return (
@@ -99,30 +124,23 @@ const RestaurantMenu = () => {
 
       {/* Fullscreen Image Viewer */}
       {isFullscreen && menuItems.length > 0 && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <button
             className="absolute top-4 right-4 text-white text-2xl font-bold"
             onClick={closeFullscreen}
           >
             ✖
           </button>
-          <button
-            className="absolute left-4 text-white text-4xl font-bold"
-            onClick={handlePreviousImage}
-          >
-            ◀
-          </button>
           <img
             src={menuItems[currentImageIndex].imageUrl}
             alt={menuItems[currentImageIndex].title}
             className="max-w-full max-h-full object-contain"
           />
-          <button
-            className="absolute right-4 text-white text-4xl font-bold"
-            onClick={handleNextImage}
-          >
-            ▶
-          </button>
         </div>
       )}
 
