@@ -1,9 +1,15 @@
 import { PhoneIcon, BanknoteIcon, MapPinIcon, ShareIcon } from 'lucide-react';
 
-const BottomNavbar = () => {
+interface BottomNavProps{
+  contact:string;
+}
+
+const BottomNavbar:React.FC<BottomNavProps> = ({contact}) => {
   return (
     <div className="fixed bottom-0 left-10 right-10 md:left-80 md:right-80 rounded-full  bg-white flex justify-around items-center py-3 shadow-md z-1000">
-      <button className="flex flex-col items-center text-black hover:opacity-80">
+      <button 
+      onClick={() => window.location.href = `tel:${contact}`}
+       className="flex flex-col items-center text-black hover:opacity-80">
         <PhoneIcon size={24} />
         <span className="text-sm mt-1">Call</span>
       </button>
