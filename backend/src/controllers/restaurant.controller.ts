@@ -44,7 +44,10 @@ export const signup: RequestHandler = async (req, res): Promise<void> => {
         data:{
             email:body.email,
             restaurantName:body.restaurantName,
-            password:body.password
+            password:body.password,
+            ContactNum:body.ContactNum,
+            City:body.City
+
         }
     })
 
@@ -129,19 +132,6 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
     }
   };
 
-
-  export const RestaurantDetails:RequestHandler = async(req,res):Promise<void> =>{
-
-    
-
-
-
-
-
-  }
-  
-  
-
   
 export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
     const restaurantId = parseInt(req.params.restaurantId);
@@ -164,8 +154,7 @@ export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
             id:userId,
         },
         select:{
-            restaurantName:true
-        }
+            restaurantName:true        }
     })
 
     res.status(StatusCode.SUCCESS).json({restaurant_menu,restaurantName})
@@ -208,7 +197,9 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
                 id:restaurantId
             },
             select:{
-                restaurantName:true
+                restaurantName:true,
+                ContactNum:true,
+                City:true
             }
         })
     
