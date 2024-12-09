@@ -20,7 +20,7 @@ model User {
   email String  @unique
   password String
   menus Menu[]
-  ContactNum  BigInt
+  ContactNum  String
   City        String
   upiqr   UpiQr[]
 }
@@ -34,7 +34,7 @@ model Menu {
 }
 
 model UpiQr {
-  id Int @id @default(autoincrement())
+  id     Int @id @default(autoincrement())
   userId Int
   user   User @relation(fields: [userId],references: [id])
 }
