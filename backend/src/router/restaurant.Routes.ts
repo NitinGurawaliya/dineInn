@@ -29,9 +29,6 @@ const storage = new CloudinaryStorage({
 
 restaurantRouter.use(express.json({ limit: "10mb" }));
 restaurantRouter.use(express.urlencoded({ limit: "10mb", extended: true }));
-
-
-
 restaurantRouter.post("/signup", signup);
 restaurantRouter.post("/signin", signin);
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
