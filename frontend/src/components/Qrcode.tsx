@@ -60,7 +60,7 @@ const Qrcode = () => {
               📍 {location}
             </h1>
 
-        <h2 className="text-xl  flex justify-center md:text-4xl font-bold mb-11 text-gray-800">
+        <h2 className="text-2xl  flex justify-center md:text-4xl font-bold mb-11 text-gray-800">
           SCAN ME FOR MENU
         </h2>
         
