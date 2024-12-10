@@ -164,6 +164,12 @@ export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
 export const qrcodeGeneration:RequestHandler = async(req,res) :Promise<void> =>{
     const restaurantId = parseInt(req.params.restaurantId);
 
+    const restaurantDetails = await prisma.user.findUnique({
+        where:{
+            id:restaurantId
+        }
+    })
+
     const frontendUrl = `https://dine-inn.vercel.app/menu/${restaurantId}`
 
     QRCode.toDataURL(frontendUrl,function(err,url){
@@ -173,7 +179,7 @@ export const qrcodeGeneration:RequestHandler = async(req,res) :Promise<void> =>{
         }
 
         console.log(url);
-        res.status(StatusCode.SUCCESS).json({qrCodeUrl: url})
+        res.status(StatusCode.SUCCESS).json({qrCodeUrl: url,restaurantDetails})
     })
 }
 
