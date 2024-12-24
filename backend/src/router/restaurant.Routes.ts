@@ -1,7 +1,7 @@
 import { Router,Request,Response } from "express";
 import express from "express"
 
-import {menuUpload, myRestaurantMenu, qrcodeGeneration, restaurantMenu, signin, signup} from "../controllers/restaurant.controller"
+import { menuUpload, myRestaurantMenu, restaurantDetails, restaurantMenu, signin, signup} from "../controllers/restaurant.controller"
 import multer from "multer"
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinary from "../cloudinaryConfig"
@@ -31,9 +31,11 @@ restaurantRouter.use(express.json({ limit: "10mb" }));
 restaurantRouter.use(express.urlencoded({ limit: "10mb", extended: true }));
 restaurantRouter.post("/signup", signup);
 restaurantRouter.post("/signin", signin);
+restaurantRouter.post("/onboarding",authMiddleware,restaurantDetails)
+
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
-restaurantRouter.post("/details",authMiddleware,upload.single('image'))
-restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
+// restaurantRouter.post("/qrcode",authMiddleware,upload.single('upiqr'),upiqrupload)
+// restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
 restaurantRouter.get("/menu/:restaurantId",authMiddleware,myRestaurantMenu);
 restaurantRouter.get("/:restaurantId",restaurantMenu);
 
