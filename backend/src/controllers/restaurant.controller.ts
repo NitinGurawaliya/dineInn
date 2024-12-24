@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { RequestHandler } from "express";
-import { restaurantSigninSchema, restaurantSignupSchema } from "../zod";
+import { restaurantOnboardingSchema, restaurantSigninSchema, restaurantSignupSchema } from "../zod";
 import jwt from "jsonwebtoken"
 import QRCode from "qrcode";
+import exp from "constants";
 
 export enum StatusCode {
     BADREQ = 400,
@@ -43,10 +44,7 @@ export const signup: RequestHandler = async (req, res): Promise<void> => {
     const user  = await prisma.user.create({
         data:{
             email:body.email,
-            restaurantName:body.restaurantName,
             password:body.password,
-            ContactNum:body.ContactNum,
-            City:body.City
 
         }
     })
@@ -57,7 +55,6 @@ export const signup: RequestHandler = async (req, res): Promise<void> => {
     res.status(StatusCode.SUCCESS).json({
         token,
         userId:user.id
-
     });
     
    } catch (error) {
@@ -98,10 +95,35 @@ export const signin:RequestHandler = async(req,res): Promise<void>=>{
     return;
 }
 
+export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
+
+    const body   = req.body;
+
+    const {success} = restaurantOnboardingSchema.safeParse(body);
+
+    if(!success){
+        res.status(StatusCode.BADREQ).json({msg:"Invalid data sent"})
+        return;
+    }
+
+
+    const restaurantDetails = await prisma.restaurantDetails.create({
+        data:{
+            restaurantName:body.restaurantName,
+            contactNum:body.contactNum,
+            city:body.contactNum,
+            userId:req.userId
+        }
+    })
+
+    res.status(StatusCode.SUCCESS).json(restaurantDetails)
+}
+
 export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
     try {
       const userId = req.userId;
       const title = req.body.title;
+      const restaurantId= req.restaurantId
   
       if (!userId) {
         res.status(401).json({ error: "Unauthorized: User not logged in" });
@@ -117,7 +139,7 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
         req.files.map((file: Express.Multer.File) =>
           prisma.menu.create({
             data: {
-              userId: userId,
+              restaurantDetailsId:restaurantId,
               imageUrl: file.path,
               title,
             },
@@ -135,26 +157,30 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
   
 export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
     const restaurantId = parseInt(req.params.restaurantId);
-    const userId = req.userId;
-    console.log(userId)
+    const restaurantDetailsId = req.restaurantId;
 
-    if(userId !=restaurantId ){
+    if(restaurantId !=restaurantDetailsId ){
          res.status(StatusCode.NOTPERMISSION).json({msg:"You cannot access this menu "})
          return
     }
 
     const restaurant_menu = await prisma.menu.findMany({
        where:{
-        userId:restaurantId
+        restaurantDetailsId:restaurantId
        },
     })
 
-    const restaurantName = await prisma.user.findUnique({
+    const restaurantName = await prisma.restaurantDetails.findUnique({
         where:{
-            id:userId,
+            id:restaurantDetailsId
         },
         select:{
-            restaurantName:true        }
+            restaurantName:true,
+            contactNum:true,
+            city:true,
+
+
+        }
     })
 
     res.status(StatusCode.SUCCESS).json({restaurant_menu,restaurantName})
@@ -164,7 +190,7 @@ export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
 export const qrcodeGeneration:RequestHandler = async(req,res) :Promise<void> =>{
     const restaurantId = parseInt(req.params.restaurantId);
 
-    const restaurantDetails = await prisma.user.findUnique({
+    const restaurantDetails = await prisma.restaurantDetails.findUnique({
         where:{
             id:restaurantId
         }
@@ -194,18 +220,18 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
     
         const menus = await prisma.menu.findMany({
           where: {
-            userId: restaurantId,
+            restaurantDetailsId: restaurantId,
           },
         });
 
-        const resName = await prisma.user.findUnique({
+        const resName = await prisma.restaurantDetails.findUnique({
             where:{
                 id:restaurantId
             },
             select:{
                 restaurantName:true,
-                ContactNum:true,
-                City:true
+                contactNum:true,
+                city:true
             }
         })
     
@@ -222,6 +248,29 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
     
 }
 
+// export const upiqrupload:RequestHandler = async(req,res):Promise<void>=>{
 
+//     const userId = req.userId;
 
+//     if(!userId){
+//         res.status(StatusCode.NOTPERMISSION).json({error:"User not authorized"})
+//         return;
+//     }
 
+//     if(!req.file){
+//         res.status(400).json({ error: "No image provided" });
+//       return;
+//     }
+
+//     const file = req.file; // Single file is available directly on `req.file`
+
+//     const upiqr = await prisma.upiQr.create({
+//         data:{
+//             restaurantDetailsId:req.restaurantId,
+//             qrCodeUrl:file.path
+//         }
+//     })
+    
+    
+
+// }
