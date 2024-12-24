@@ -19,11 +19,11 @@ export const authMiddleware = async (req:Request, res: Response, next: NextFunct
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
         req.userId = decodedToken.id; 
+        req.restaurantId = decodedToken.id
         console.log('Decoded userId in middleware:', req.userId); // Debug log
 
         next();
     } catch (err) {
          res.status(403).json({ msg: 'Not authorized' });
-         
     }
 };
