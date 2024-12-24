@@ -15,6 +15,7 @@ export default function SignUp() {
   const navigate = useNavigate()
 
   async function handleSignup() {
+   try {
     const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signup`,{
       email,
       password,
@@ -25,12 +26,14 @@ export default function SignUp() {
 
     const data = res.data;
     const userId = data.userId;
-    console.log(data);
-    console.log(userId)
 
     localStorage.setItem("token",`Bearer ${data.token}`)
     localStorage.setItem("userId",userId);
     navigate("/upload/menu")
+   } catch (error) {
+    console.log(error)
+    alert("Error occured please try again")
+   }
     
   }
 
