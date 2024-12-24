@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,28 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id    Int     @id @default(autoincrement())
-  restaurantName  String
-  email String  @unique
-  password String
-  menus Menu[]
-  ContactNum  String
-  City        String
-  upiqr   UpiQr[]
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  password         String
+  restaurantDetail RestaurantDetails? 
+}
+
+model RestaurantDetails {
+  id             Int     @id @default(autoincrement())
+  restaurantName String
+  menus          Menu[]
+  contactNum     String
+  city           String
+  upiQrs         UpiQr[]
+  userId         Int     @unique
+  user           User    @relation(fields: [userId], references: [id]) 
 }
 
 model Menu {
-  id       Int    @id @default(autoincrement())
-  title    String
-  imageUrl String
-  userId   Int
-  user     User   @relation(fields: [userId], references: [id])
+  id                 Int               @id @default(autoincrement())
+  imageUrl           String
+  title              String?
+  restaurantDetailsId Int
+  restaurantDetails  RestaurantDetails @relation(fields: [restaurantDetailsId], references: [id])
 }
 
 model UpiQr {
-  id     Int @id @default(autoincrement())
-  userId Int
-  user   User @relation(fields: [userId],references: [id])
+  id                 Int               @id @default(autoincrement())
+  qrCodeUrl          String
+  restaurantDetailsId Int
+  restaurantDetails  RestaurantDetails @relation(fields: [restaurantDetailsId], references: [id])
 }
