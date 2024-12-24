@@ -12,7 +12,8 @@ export default function SignUp() {
   const navigate = useNavigate()
 
   async function SigninHandler() {
-    console.log("hi")
+    try {
+      
     const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signin`,{
       email,
       password
@@ -20,13 +21,24 @@ export default function SignUp() {
 
     const data = res.data;
     const userId =data.userId
+
     console.log(data)
+    if(data.msg==="User donot exists"){
+      alert("You donot have an account")
+      return;
+    }
     localStorage.setItem("token",`Bearer ${data.token}`)
     localStorage.setItem("userId",userId)
     navigate("/myMenu")
     alert("signin done")
     console.log(userId)
+    } catch (error) {
+      console.log("error ",error)
+      alert("An error occured while signing in please try again")
+    }
+    
   }
+
 
   return (
     <div className="min-h-screen bg-gray-900 py-0 flex flex-col justify-center sm:px-6 lg:px-8">
