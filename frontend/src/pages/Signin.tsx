@@ -29,7 +29,7 @@ export default function SignUp() {
     }
     localStorage.setItem("token",`Bearer ${data.token}`)
     localStorage.setItem("userId",userId)
-    navigate("/myMenu")
+    navigate("/dashboard")
     alert("signin done")
     console.log(userId)
     } catch (error) {
