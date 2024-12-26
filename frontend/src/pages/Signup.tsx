@@ -13,7 +13,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   async function handleSignup(event:React.FormEvent) {
-    event.preventDefault(); // Prevents default form submission behavior
+    event.preventDefault(); 
 
     try {
       const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signup`, {
