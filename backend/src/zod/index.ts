@@ -16,5 +16,7 @@ export const restaurantSigninSchema = zod.object({
 export const restaurantOnboardingSchema  = zod.object({
     restaurantName: zod.string(),
     contactNum:zod.string(),
-    city:zod.string()
+    city:zod.string(),
+    WeekdaysWorking:zod.string(),
+    WeekendWorking:zod.string()
 })      
