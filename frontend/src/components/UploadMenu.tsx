@@ -28,7 +28,7 @@ export default function MenuUpload() {
 
       const uploadPromises = menuImages.map((file) => {
         const formData = new FormData();
-        formData.append("image", file); // Use 'image' as the key for each file
+        formData.append("image", file); 
         formData.append("title", title);
 
         return axios.post(`${BACKEND_URL}/api/v1/restaurant/menu/upload`, formData, {
@@ -43,7 +43,7 @@ export default function MenuUpload() {
       console.log("Upload successful:", responses.map((res) => res.data));
 
       // const id = localStorage.getItem("userId");
-      navigate("/myMenu");
+      navigate("/dashboard");
       alert("Menus uploaded successfully!");
     } catch (error) {
       console.error("Error uploading menus:", error);
@@ -53,13 +53,15 @@ export default function MenuUpload() {
     }
   };
 
+  // from-amber-100 to-orange-200
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-orange-800 mb-6">Upload Menu Photos</h1>
+    <div className="min-h-screen bg-gradient-to-br bg-gray-900  flex items-center justify-center p-4">
+      <div className="bg-gray-900 border-yellow-400 border-4 rounded-lg shadow-xl p-8 w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-yellow-400 mb-6">Upload Menu Photos</h1>
         <form onSubmit={handleUpload} className="space-y-6">
           <div>
-            <label htmlFor="menuPhotos" className="block text-sm font-medium text-orange-700 mb-2">
+            <label htmlFor="menuPhotos" className="block text-sm font-medium text-yellow-400 mb-2">
               Menu Photos
             </label>
             <input
@@ -67,7 +69,7 @@ export default function MenuUpload() {
               type="file"
               onChange={handleFileChange}
               accept="image/*"
-              multiple // Allow multiple file selection
+              multiple 
               required
               className="block w-full text-sm text-gray-500
                 file:mr-4 file:py-2 file:px-4
@@ -79,7 +81,7 @@ export default function MenuUpload() {
             />
           </div>
           <input
-            className="p-2 w-full border border-gray-300 rounded-lg"
+            className="p-2 w-full border border-yellow-400 rounded-lg"
             placeholder="Enter menu category"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
