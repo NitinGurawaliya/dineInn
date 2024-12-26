@@ -53,7 +53,7 @@ const Qrcode = () => {
   return (
     <div    className="min-h-screen  border-red-50 border-2 flex flex-col items-center justify-center bg-gray-100 ">
       <div className="absolute top-0 left-0 mt-8">
-          <Link to="/dashboard" className="inline-flex items-center text-yellow-400 hover:text-yellow-300">
+          <Link to="/dashboard" className="inline-flex items-center text-black hover:text-yellow-300">
             <ArrowLeft className=" h-5 w-5" />
                  Back
           </Link>
