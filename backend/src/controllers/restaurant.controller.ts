@@ -111,8 +111,11 @@ export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
         data:{
             restaurantName:body.restaurantName,
             contactNum:body.contactNum,
-            city:body.contactNum,
-            userId:req.userId
+            city:body.city,
+            userId:req.userId,
+            WeekdaysWorking:body.WeekdaysWorking,
+            WeekendWorking:body.WeekendWorking
+            
         }
     })
 
@@ -121,9 +124,10 @@ export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
 
 export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
     try {
-      const userId = req.userId;
+      const userId = req.userId; // Comes from middleware
+      const restaurantId = req.restaurantId; // Comes from middleware
       const title = req.body.title;
-      const restaurantId= req.restaurantId
+      console.log(restaurantId)
   
       if (!userId) {
         res.status(401).json({ error: "Unauthorized: User not logged in" });
@@ -139,7 +143,7 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
         req.files.map((file: Express.Multer.File) =>
           prisma.menu.create({
             data: {
-              restaurantDetailsId:restaurantId,
+              restaurantDetailsId: restaurantId, // Use restaurantId from middleware
               imageUrl: file.path,
               title,
             },
@@ -149,10 +153,11 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
   
       res.status(200).json({ menu: uploadedMenus });
     } catch (error) {
-      console.error(error);
+      console.error("Error uploading menus:", error);
       res.status(500).json({ msg: "Internal server error" });
     }
   };
+  
 
   
 export const myRestaurantMenu:RequestHandler = async(req,res) :Promise<void> =>{
