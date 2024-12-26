@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { BACKEND_URL } from "../config";
-import { toPng } from "html-to-image";
+import { toPng } from "html-to-image"
+import { ArrowLeft } from 'lucide-react'
+import { Link } from 'react-router-dom'
  
 
 const Qrcode = () => {
@@ -50,6 +52,12 @@ const Qrcode = () => {
 
   return (
     <div    className="min-h-screen  border-red-50 border-2 flex flex-col items-center justify-center bg-gray-100 ">
+      <div className="absolute top-0 left-0 mt-8">
+          <Link to="/dashboard" className="inline-flex items-center text-yellow-400 hover:text-yellow-300">
+            <ArrowLeft className=" h-5 w-5" />
+                 Back
+          </Link>
+          </div>
      
       <div ref={qrRef}  className=" bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-3xl  flex justify-center md:text-5xl font-bold mb-2 text-red-800">
