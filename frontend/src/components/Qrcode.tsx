@@ -43,7 +43,7 @@ const Qrcode = () => {
       const dataUrl = await toPng(qrRef.current);
       const link = document.createElement("a");
       link.href = dataUrl;
-      link.download = "restaurant-details.png";
+      link.download = "your Qr.png";
       link.click();
     }
   };
@@ -82,10 +82,6 @@ const Qrcode = () => {
             </h1>
 
             </div>
-
-          
-
-          
           </div>
         ) : (
           <p className="text-gray-600">Loading QR Code...</p>
