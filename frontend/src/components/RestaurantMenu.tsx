@@ -14,9 +14,9 @@ interface MenuItem {
 
 const RestaurantMenu = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [restaurantName, setRestaurantName] = useState("");
-  const [location, setLocation] = useState("");
-  const [contact, setContact] = useState("");
+  const [restaurantName, setRestaurantName] = useState<string | null>(null);
+  const [location, setLocation] = useState<string | null>(null);
+  const [contact, setContact] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -25,11 +25,15 @@ const RestaurantMenu = () => {
   const { id } = useParams();
 
   async function resMenu() {
-    const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
-    setMenuItems(res.data.menus);
-    setRestaurantName(res.data.resName.restaurantName);
-    setLocation(res.data.resName.City);
-    setContact(res.data.resName.ContactNum);
+    try {
+      const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
+      setMenuItems(res.data.menus);
+      setRestaurantName(res.data.resName.restaurantName);
+      setLocation(res.data.resName.city);
+      setContact(res.data.resName.contactNum);
+    } catch (error) {
+      console.error("Failed to fetch restaurant data", error);
+    }
   }
 
   useEffect(() => {
@@ -64,18 +68,13 @@ const RestaurantMenu = () => {
   const handleTouchEnd = () => {
     if (touchStart !== null && touchEnd !== null) {
       const swipeDistance = touchStart - touchEnd;
-
-      // Swipe threshold (minimum swipe distance to register as a swipe)
-      const threshold = 50;
-
+      const threshold = 50; // Minimum swipe distance to register as a swipe
       if (swipeDistance > threshold) {
         handleNextImage(); // Swipe left
       } else if (swipeDistance < -threshold) {
         handlePreviousImage(); // Swipe right
       }
     }
-
-    // Reset touch positions
     setTouchStart(null);
     setTouchEnd(null);
   };
@@ -86,11 +85,11 @@ const RestaurantMenu = () => {
         <div className="max-w-6xl mx-auto">
           {/* Restaurant Name */}
           <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
-            {restaurantName.toUpperCase()}
+            {restaurantName ? restaurantName.toUpperCase() : "Loading..."}
           </h1>
 
           <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
-            📍 {location.toUpperCase()}
+            📍 {location ?.toUpperCase()}
           </h1>
 
           {/* Menu Grid */}
@@ -99,7 +98,7 @@ const RestaurantMenu = () => {
               <div
                 key={item.id}
                 className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105"
-                onClick={() => openFullscreen(index)} // Open fullscreen on click
+                onClick={() => openFullscreen(index)}
               >
                 {/* Image */}
                 <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
@@ -145,7 +144,7 @@ const RestaurantMenu = () => {
       )}
 
       <Footer />
-      <BottomNavbar contact={contact} />
+      <BottomNavbar contact={contact || "No contact available"} />
     </div>
   );
 };
