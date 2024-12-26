@@ -1,7 +1,7 @@
 import { Router,Request,Response } from "express";
 import express from "express"
 
-import { menuUpload, myRestaurantMenu, restaurantDetails, restaurantMenu, signin, signup} from "../controllers/restaurant.controller"
+import { menuUpload, myRestaurantMenu, qrcodeGeneration, restaurantDetails, restaurantMenu, signin, signup} from "../controllers/restaurant.controller"
 import multer from "multer"
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinary from "../cloudinaryConfig"
@@ -35,7 +35,7 @@ restaurantRouter.post("/onboarding",authMiddleware,restaurantDetails)
 
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
 // restaurantRouter.post("/qrcode",authMiddleware,upload.single('upiqr'),upiqrupload)
-// restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
+restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
 restaurantRouter.get("/menu/:restaurantId",authMiddleware,myRestaurantMenu);
 restaurantRouter.get("/:restaurantId",restaurantMenu);
 
