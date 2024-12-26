@@ -1,6 +1,1 @@
-export const BACKEND_URL = "https://dineinn.onrender.com "
-
-
-
-
-//  
+export const BACKEND_URL = "https://dineinn.onrender.com"
