@@ -115,7 +115,7 @@ export default function SignUp() {
             </div>
 
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input
                 id="terms"
                 name="terms"
@@ -133,13 +133,13 @@ export default function SignUp() {
                   Privacy Policy
                 </a>
               </label>
-            </div>
+            </div> */}
 
           <div className="mt-8 sm:mx-auto  sm:w-full sm:max-w-md text-center">
             <p className="text-gray-400">
               Don't have an account?{' '}
               <Link to="/signup" className="font-medium text-yellow-400 hover:text-yellow-300">
-                Sign in
+                Sign up
               </Link>
             </p>
       </div>
