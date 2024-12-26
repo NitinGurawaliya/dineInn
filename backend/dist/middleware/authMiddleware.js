@@ -25,7 +25,9 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     try {
         const decodedToken = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         req.userId = decodedToken.id;
+        req.restaurantId = decodedToken.id;
         console.log('Decoded userId in middleware:', req.userId); // Debug log
+        console.log('decoded res id in middleare ', req.restaurantId);
         next();
     }
     catch (err) {
