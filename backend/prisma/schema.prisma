@@ -21,6 +21,8 @@ model RestaurantDetails {
   contactNum     String
   city           String
   upiQrs         UpiQr[]
+  WeekendWorking String  @default("9am-5pm")
+  WeekdaysWorking String @default("9am-12am")
   userId         Int     @unique
   user           User    @relation(fields: [userId], references: [id]) 
 }
