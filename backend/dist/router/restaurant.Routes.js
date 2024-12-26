@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const express_2 = __importDefault(require("express"));
 const restaurant_controller_1 = require("../controllers/restaurant.controller");
 const multer_1 = __importDefault(require("multer"));
 const multer_storage_cloudinary_1 = require("multer-storage-cloudinary");
@@ -27,8 +28,20 @@ const storage = new multer_storage_cloudinary_1.CloudinaryStorage({
         public_id: (req, file) => file.originalname.split('.')[0],
     }, // Bypass type error by casting to any
 });
-const upload = (0, multer_1.default)({ storage });
+const upload = (0, multer_1.default)({
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
+restaurantRouter.use(express_2.default.json({ limit: "10mb" }));
+restaurantRouter.use(express_2.default.urlencoded({ limit: "10mb", extended: true }));
 restaurantRouter.post("/signup", restaurant_controller_1.signup);
 restaurantRouter.post("/signin", restaurant_controller_1.signin);
-restaurantRouter.post('/upload-menu-image', authMiddleware_1.authMiddleware, upload.single('image'), restaurant_controller_1.menuUpload);
+restaurantRouter.post("/onboarding", authMiddleware_1.authMiddleware, restaurant_controller_1.restaurantDetails);
+restaurantRouter.post('/menu/upload', authMiddleware_1.authMiddleware, upload.array('image', 10), restaurant_controller_1.menuUpload);
+// restaurantRouter.post("/qrcode",authMiddleware,upload.single('upiqr'),upiqrupload)
+restaurantRouter.get("/generate-qr-code/:restaurantId", authMiddleware_1.authMiddleware, restaurant_controller_1.qrcodeGeneration);
+restaurantRouter.get("/menu/:restaurantId", authMiddleware_1.authMiddleware, restaurant_controller_1.myRestaurantMenu);
+restaurantRouter.get("/:restaurantId", restaurant_controller_1.restaurantMenu);
 exports.default = restaurantRouter;
