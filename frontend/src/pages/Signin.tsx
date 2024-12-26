@@ -11,9 +11,9 @@ export default function SignUp() {
   const[password,setPassword] = useState("")
   const navigate = useNavigate()
 
-  async function SigninHandler() {
+  async function SigninHandler(event:React.FormEvent) {
     try {
-      
+      event.preventDefault(); 
     const res = await axios.post(`${BACKEND_URL}/api/v1/restaurant/signin`,{
       email,
       password
@@ -62,11 +62,6 @@ export default function SignUp() {
         <p className="mt-2 text-center text-sm text-white">
           Take you local business online in few clicks
         </p>
-
-        
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-          Login
-        </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
