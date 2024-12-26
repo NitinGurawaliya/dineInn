@@ -58,7 +58,7 @@ const MyMenu = () => {
         </div>
 
         {/* Restaurant Name */}
-        <h1 className="text-yellow-400 text-4xl font-bold mt-4 md:mt-0 md:ml-4 text-center md:text-left">
+        <h1 className="text-yellow-400 pl-6 text-4xl font-bold mt-4 md:mt-0 md:ml-4 text-center md:text-left">
           {restaurantName}
         </h1>
       </div>
