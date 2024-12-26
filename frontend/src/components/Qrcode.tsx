@@ -28,8 +28,8 @@ const Qrcode = () => {
     const qrcode = res.data.qrCodeUrl;
     setQrcode(res.data.qrCodeUrl);
     setRestaurantName(res.data.restaurantDetails.restaurantName)
-    setLocation(res.data.restaurantDetails.City)
-    setContact(res.data.restaurantDetails.ContactNum)
+    setLocation(res.data.restaurantDetails.city)
+    setContact(res.data.restaurantDetails.contactNum)
     console.log(qrcode);
   }
 
