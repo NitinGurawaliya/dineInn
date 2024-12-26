@@ -21,6 +21,7 @@ export const authMiddleware = async (req:Request, res: Response, next: NextFunct
         req.userId = decodedToken.id; 
         req.restaurantId = decodedToken.id
         console.log('Decoded userId in middleware:', req.userId); // Debug log
+        console.log('decoded res id in middleare ',req.restaurantId)
 
         next();
     } catch (err) {
