@@ -81,14 +81,14 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-white p-4 md:p-b-4">
+      <div className="min-h-screen bg-black p-4 md:p-b-4">
         <div className="max-w-6xl mx-auto">
           {/* Restaurant Name */}
-          <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
+          <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-yellow-300 font-serif drop-shadow-lg">
             {restaurantName ? restaurantName.toUpperCase() : "Loading..."}
           </h1>
 
-          <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
+          <h1 className="text-xl md:text-2xl md:mb-6 font-extrabold text-center text-white font-serif drop-shadow-lg">
             📍 {location ?.toUpperCase()}
           </h1>
 
