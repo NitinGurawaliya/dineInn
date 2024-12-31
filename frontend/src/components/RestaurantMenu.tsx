@@ -81,7 +81,7 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-black p-4 md:p-b-4">
+      <div className="min-h-screen bg-black p-10 md:p-b-4">
         <div className="max-w-6xl mx-auto">
           {/* Restaurant Name */}
           <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-yellow-300 font-serif drop-shadow-lg">
@@ -97,11 +97,11 @@ const RestaurantMenu = () => {
             {menuItems.map((item, index) => (
               <div
                 key={item.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105"
+                className="bg-black rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105"
                 onClick={() => openFullscreen(index)}
               >
                 {/* Image */}
-                <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
+                <div className="relative w-full pt-[141.4%] bg-yellow-400">
                   <img
                     src={item.imageUrl}
                     alt={item.title}
@@ -110,11 +110,11 @@ const RestaurantMenu = () => {
                 </div>
 
                 {/* Title */}
-                <div className="p-4 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100">
+                {/* <div className="p-4 bg-yellow-400">
                   <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center truncate">
                     {item.title}
                   </h2>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
