@@ -18,11 +18,11 @@ model RestaurantDetails {
   id             Int     @id @default(autoincrement())
   restaurantName String
   menus          Menu[]
-  contactNum     String
-  city           String
-  upiQrs         UpiQr[]
-  WeekendWorking String  @default("9am-5pm")
-  WeekdaysWorking String @default("9am-12am")
+  contactNum     String?
+  city           String?
+  upiQrUrl      String?
+  WeekendWorking String?  @default("9am-5pm")
+  WeekdaysWorking String? @default("9am-12am")
   userId         Int     @unique
   user           User    @relation(fields: [userId], references: [id]) 
 }
@@ -35,9 +35,4 @@ model Menu {
   restaurantDetails  RestaurantDetails @relation(fields: [restaurantDetailsId], references: [id])
 }
 
-model UpiQr {
-  id                 Int               @id @default(autoincrement())
-  qrCodeUrl          String
-  restaurantDetailsId Int
-  restaurantDetails  RestaurantDetails @relation(fields: [restaurantDetailsId], references: [id])
-}
+
