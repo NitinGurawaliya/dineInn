@@ -3,7 +3,6 @@ import { RequestHandler } from "express";
 import { restaurantOnboardingSchema, restaurantSigninSchema, restaurantSignupSchema } from "../zod";
 import jwt from "jsonwebtoken"
 import QRCode from "qrcode";
-import exp from "constants";
 
 export enum StatusCode {
     BADREQ = 400,
@@ -99,12 +98,13 @@ export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
 
     const body   = req.body;
 
-    const {success} = restaurantOnboardingSchema.safeParse(body);
+    const {success} =  restaurantOnboardingSchema.safeParse(body)
 
     if(!success){
-        res.status(StatusCode.BADREQ).json({msg:"Invalid data sent"})
-        return;
+        res.status(StatusCode.BADREQ).json({msg:"Invalid data "})
     }
+
+    const upiQrUrl = req.file?.path;
 
 
     const restaurantDetails = await prisma.restaurantDetails.create({
@@ -114,8 +114,8 @@ export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
             city:body.city,
             userId:req.userId,
             WeekdaysWorking:body.WeekdaysWorking,
-            WeekendWorking:body.WeekendWorking
-            
+            WeekendWorking:body.WeekendWorking,
+            upiQrUrl
         }
     })
 
@@ -236,7 +236,10 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
             select:{
                 restaurantName:true,
                 contactNum:true,
-                city:true
+                city:true,
+                upiQrUrl:true,
+                WeekdaysWorking:true,
+                WeekendWorking:true
             }
         })
     
