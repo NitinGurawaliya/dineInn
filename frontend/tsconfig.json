@@ -1,4 +1,13 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"]
+    },
+    "strict": true, // Optional: Add any other compiler options you may need
+    "jsx": "react-jsx" // Change to "react" if you're using React 17 or below
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
