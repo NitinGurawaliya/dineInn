@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "./Footer";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL, FRONTEND_URL } from "../config";
 import BottomNavbar from "./BottomNav";
 
 interface MenuItem {
@@ -17,6 +17,12 @@ const RestaurantMenu = () => {
   const [restaurantName, setRestaurantName] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
   const [contact, setContact] = useState<string | null>(null);
+  const [upiQr,setUpiQr] = useState("");
+  const[weekdayHours,setWeekdayHours] = useState("")
+  const[weekendHours,setWeekendHours] = useState("")
+  const[link,setLink] = useState("")
+
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -27,14 +33,24 @@ const RestaurantMenu = () => {
   async function resMenu() {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
+      const link = `${FRONTEND_URL}/menu/${id}`;
+      setLink(link)
       setMenuItems(res.data.menus);
       setRestaurantName(res.data.resName.restaurantName);
       setLocation(res.data.resName.city);
       setContact(res.data.resName.contactNum);
+      setUpiQr(res.data.resName.upiQrUrl); // Set the UPI QR URL
+      setWeekdayHours(res.data.resName.WeekdaysWorking);
+      setWeekendHours(res.data.resName.WeekendWorking);
+
+
+      console.log(weekdayHours)
     } catch (error) {
       console.error("Failed to fetch restaurant data", error);
     }
   }
+
+
 
   useEffect(() => {
     resMenu();
@@ -91,6 +107,9 @@ const RestaurantMenu = () => {
           <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
             📍 {location ?.toUpperCase()}
           </h1>
+          <div>
+     
+    </div>
 
           {/* Menu Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -143,8 +162,8 @@ const RestaurantMenu = () => {
         </div>
       )}
 
-      <Footer />
-      <BottomNavbar contact={contact || "No contact available"} />
+      <Footer weekdayHours={weekdayHours} weekendHours={weekendHours}  />
+      <BottomNavbar  link={link} upiQr={upiQr} contact={contact || "No contact available"} />
     </div>
   );
 };
