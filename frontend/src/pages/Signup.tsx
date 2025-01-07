@@ -105,6 +105,7 @@ export default function SignUp() {
               >
                 Create Account
               </button>
+              
             </div>
           </form>
 
