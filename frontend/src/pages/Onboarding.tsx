@@ -10,19 +10,27 @@ export default function RestaurantDetails() {
   const [city, setCity] = useState('')
   const [WeekdaysWorking, setWeekdaysWorking] = useState('')
   const [WeekendWorking, setWeekendWorking] = useState('')
+  const [upiQr,setUpiQr] = useState<File | null>(null)
   const navigate = useNavigate()
 
   async function handleSubmit(event:React.FormEvent) {
     event.preventDefault()
     console.log({ restaurantName, contactNum, city, WeekdaysWorking, WeekendWorking })
 
-     await axios.post(`${BACKEND_URL}/api/v1/restaurant/onboarding`,{
-      restaurantName,
-      contactNum,
-      city,
-      WeekdaysWorking,
-      WeekendWorking
-    },{
+    const restaurantData = new FormData()
+
+    restaurantData.append('restaurantName', restaurantName);
+    restaurantData.append('contactNum', contactNum);
+    restaurantData.append('city', city);
+    restaurantData.append('WeekdaysWorking', WeekdaysWorking);
+    restaurantData.append('WeekendWorking', WeekendWorking);
+  if(upiQr){
+    restaurantData.append('upiQr',upiQr)
+  }
+
+     await axios.post(`${BACKEND_URL}/api/v1/restaurant/onboarding`,
+      restaurantData
+    ,{       
       headers:{
         Authorization:localStorage.getItem("token")
       }
@@ -105,20 +113,23 @@ export default function RestaurantDetails() {
 
               <div>
                 <label htmlFor="location" className="block text-sm font-medium text-gray-300">
-                  Business Location (Optional)
+                  Upi Qr code
                 </label>
-                {/* <div className="mt-1">
+                <div className="mt-1">
                   <input
                     id="location"
-                    name="location"
-                    type="text"
-                    required
+                    type="file"
+                    accept="image/*"
+                    
                     className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    onChange={(e)=>{
+                      if(e.target.files){
+                        setUpiQr(e.target.files[0])
+                      }
+                    } }
                     placeholder="Full address of your business "
                   />
-                </div> */}
+                </div>
               </div>
             </div>
 
