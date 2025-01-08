@@ -90,12 +90,13 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signin = signin;
 const restaurantDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const body = req.body;
     const { success } = zod_1.restaurantOnboardingSchema.safeParse(body);
     if (!success) {
-        res.status(StatusCode.BADREQ).json({ msg: "Invalid data sent" });
-        return;
+        res.status(StatusCode.BADREQ).json({ msg: "Invalid data " });
     }
+    const upiQrUrl = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
     const restaurantDetails = yield prisma.restaurantDetails.create({
         data: {
             restaurantName: body.restaurantName,
@@ -103,7 +104,8 @@ const restaurantDetails = (req, res) => __awaiter(void 0, void 0, void 0, functi
             city: body.city,
             userId: req.userId,
             WeekdaysWorking: body.WeekdaysWorking,
-            WeekendWorking: body.WeekendWorking
+            WeekendWorking: body.WeekendWorking,
+            upiQrUrl
         }
     });
     res.status(StatusCode.SUCCESS).json(restaurantDetails);
@@ -201,7 +203,10 @@ const restaurantMenu = (req, res) => __awaiter(void 0, void 0, void 0, function*
             select: {
                 restaurantName: true,
                 contactNum: true,
-                city: true
+                city: true,
+                upiQrUrl: true,
+                WeekdaysWorking: true,
+                WeekendWorking: true
             }
         });
         if (!menus.length) {
