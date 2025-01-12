@@ -17,6 +17,8 @@ exports.restaurantOnboardingSchema = zod_1.default.object({
     restaurantName: zod_1.default.string(),
     contactNum: zod_1.default.string(),
     city: zod_1.default.string(),
-    WeekdaysWorking: zod_1.default.string(),
-    WeekendWorking: zod_1.default.string()
+    WeekdaysWorking: zod_1.default.string().optional(),
+    WeekendWorking: zod_1.default.string().optional(),
+    Instagram: zod_1.default.string().optional(),
+    Facebook: zod_1.default.string().optional()
 });
