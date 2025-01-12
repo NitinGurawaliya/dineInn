@@ -17,7 +17,7 @@ const App = () => {
         <Suspense>
             <Routes>
               <Route path="/" element={<LazyLanding />} />
-              <Route path="/signup" element={<LazySignup />}/> 
+              <Route path="/signup" element={<LazySignup />}/>
               <Route path="/signin" element={<LazySignin />}/> 
               <Route path="/onboarding/details" element={<LazyOnboarding />} />
               <Route path="/onboarding/upload/menu" element={<LazyMenuUpload />} />
