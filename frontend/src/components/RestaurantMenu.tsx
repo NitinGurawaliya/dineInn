@@ -16,11 +16,15 @@ const RestaurantMenu = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [restaurantName, setRestaurantName] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
-  const [contact, setContact] = useState<string | null>(null);
+  const [contact, setContact] = useState("");
   const [upiQr,setUpiQr] = useState("");
   const[weekdayHours,setWeekdayHours] = useState("")
   const[weekendHours,setWeekendHours] = useState("")
   const[link,setLink] = useState("")
+  const[logo,setLogo] = useState('')
+  const[instagram,setInstagram] = useState("")
+  const[facebook,setFacebook ] = useState("")
+  const[email,setEmail ] = useState('')
 
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -42,6 +46,10 @@ const RestaurantMenu = () => {
       setUpiQr(res.data.resName.upiQrUrl); // Set the UPI QR URL
       setWeekdayHours(res.data.resName.WeekdaysWorking);
       setWeekendHours(res.data.resName.WeekendWorking);
+      setInstagram(res.data.resName.Instagram)
+      setFacebook(res.data.resName.Facebook)
+      setLogo(res.data.resName.Logo)
+      setEmail(res.data.resContact.email)
 
 
       console.log(weekdayHours)
@@ -99,12 +107,18 @@ const RestaurantMenu = () => {
     <div>
       <div className="min-h-screen bg-white p-4 md:p-b-4">
         <div className="max-w-6xl mx-auto">
-          {/* Restaurant Name */}
+            <div onClick={()=>{window.location.reload()}} className="flex cursor-pointer flex-col items-center mb-6">
+              {<img
+                src={logo}
+               
+                className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 "
+              />}
+            </div>
           <h1 className="text-4xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
             {restaurantName ? restaurantName.toUpperCase() : "Loading..."}
           </h1>
 
-          <h1 className="text-xl md:text-2xl md:mb-4 font-extrabold text-center text-black font-serif drop-shadow-lg">
+          <h1 className="text-xl md:text-2xl mb-4 md:mb-8 font-extrabold text-center text-black font-serif drop-shadow-lg">
             📍 {location ?.toUpperCase()}
           </h1>
           <div>
@@ -112,7 +126,7 @@ const RestaurantMenu = () => {
     </div>
 
           {/* Menu Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 m-5 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {menuItems.map((item, index) => (
               <div
                 key={item.id}
@@ -162,8 +176,8 @@ const RestaurantMenu = () => {
         </div>
       )}
 
-      <Footer weekdayHours={weekdayHours} weekendHours={weekendHours}  />
-      <BottomNavbar  link={link} upiQr={upiQr} contact={contact || "No contact available"} />
+      <Footer facebook={facebook} instagram={instagram} contact = {contact} email= {email} weekdayHours={weekdayHours} weekendHours={weekendHours}  />
+      <BottomNavbar  link={link} upiQr={upiQr||"QR code not available"} contact={contact || "No contact available"} />
     </div>
   );
 };
