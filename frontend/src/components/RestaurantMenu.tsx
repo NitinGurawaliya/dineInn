@@ -111,7 +111,7 @@ const RestaurantMenu = () => {
               {<img
                 src={logo}
                
-                className="w-16 h-16 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 "
+                className="w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 "
               />}
             </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
