@@ -94,34 +94,46 @@ export const signin:RequestHandler = async(req,res): Promise<void>=>{
     return;
 }
 
-export const restaurantDetails:RequestHandler = async(req,res):Promise<void>=>{
 
-    const body   = req.body;
-
-    const {success} =  restaurantOnboardingSchema.safeParse(body)
-
-    if(!success){
-        res.status(StatusCode.BADREQ).json({msg:"Invalid data "})
+export const restaurantDetails: RequestHandler = async (req, res): Promise<void> => {
+    const body = req.body;
+  
+    try {
+      const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+  
+      const { success } = restaurantOnboardingSchema.safeParse(body);
+  
+      if (!success) {
+         res.status(StatusCode.BADREQ).json({ msg: 'Invalid data' });
+         return
+      }
+  
+      // Safely access files
+      const upiQrUrl = files?.['upiQr']?.[0]?.path || null;
+      const logo = files?.['Logo']?.[0]?.path || null;
+  
+      const restaurantDetails = await prisma.restaurantDetails.create({
+        data: {
+          restaurantName: body.restaurantName,
+          contactNum: body.contactNum,
+          city: body.city,
+          userId: req.userId,
+          WeekdaysWorking: body.WeekdaysWorking,
+          WeekendWorking: body.WeekendWorking,
+          upiQrUrl,
+          Facebook: body.Facebook,
+          Instagram: body.Instagram,
+          Logo:logo
+        },
+      });
+  
+      res.status(StatusCode.SUCCESS).json(restaurantDetails);
+    } catch (error) {
+      console.error(error);
+      res.status(StatusCode.BADREQ).json({ msg: 'Internal server error' });
     }
-
-    const upiQrUrl = req.file?.path;
-
-
-    const restaurantDetails = await prisma.restaurantDetails.create({
-        data:{
-            restaurantName:body.restaurantName,
-            contactNum:body.contactNum,
-            city:body.city,
-            userId:req.userId,
-            WeekdaysWorking:body.WeekdaysWorking,
-            WeekendWorking:body.WeekendWorking,
-            upiQrUrl
-        }
-    })
-
-    res.status(StatusCode.SUCCESS).json(restaurantDetails)
-}
-
+};
+  
 export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
     try {
       const userId = req.userId; // Comes from middleware
@@ -239,8 +251,20 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
                 city:true,
                 upiQrUrl:true,
                 WeekdaysWorking:true,
-                WeekendWorking:true
+                WeekendWorking:true,
+                Logo:true,
+                Instagram:true,
+                Facebook:true
             }
+        })
+
+        const resContact = await prisma.user.findFirst({
+          where:{
+            id:restaurantId
+          },
+          select:{
+            email:true,
+          }
         })
     
         if (!menus.length) {
@@ -248,7 +272,7 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
            return
         }
     
-        res.status(200).json({menus,resName});
+        res.status(200).json({menus,resName,resContact});
       } catch (error) {
         console.error("Error fetching menus:", error);
         res.status(500).json({ error: "Internal server error." });
