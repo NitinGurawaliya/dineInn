@@ -24,6 +24,9 @@ model RestaurantDetails {
   WeekendWorking String?  @default("9am-5pm")
   WeekdaysWorking String? @default("9am-12am")
   userId         Int     @unique
+  Logo            String?
+  Instagram       String?
+  Facebook        String?
   user           User    @relation(fields: [userId], references: [id]) 
 }
 
