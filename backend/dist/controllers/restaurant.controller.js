@@ -90,25 +90,38 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signin = signin;
 const restaurantDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b, _c, _d;
     const body = req.body;
-    const { success } = zod_1.restaurantOnboardingSchema.safeParse(body);
-    if (!success) {
-        res.status(StatusCode.BADREQ).json({ msg: "Invalid data " });
-    }
-    const upiQrUrl = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
-    const restaurantDetails = yield prisma.restaurantDetails.create({
-        data: {
-            restaurantName: body.restaurantName,
-            contactNum: body.contactNum,
-            city: body.city,
-            userId: req.userId,
-            WeekdaysWorking: body.WeekdaysWorking,
-            WeekendWorking: body.WeekendWorking,
-            upiQrUrl
+    try {
+        const files = req.files;
+        const { success } = zod_1.restaurantOnboardingSchema.safeParse(body);
+        if (!success) {
+            res.status(StatusCode.BADREQ).json({ msg: 'Invalid data' });
+            return;
         }
-    });
-    res.status(StatusCode.SUCCESS).json(restaurantDetails);
+        // Safely access files
+        const upiQrUrl = ((_b = (_a = files === null || files === void 0 ? void 0 : files['upiQr']) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.path) || null;
+        const logo = ((_d = (_c = files === null || files === void 0 ? void 0 : files['Logo']) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.path) || null;
+        const restaurantDetails = yield prisma.restaurantDetails.create({
+            data: {
+                restaurantName: body.restaurantName,
+                contactNum: body.contactNum,
+                city: body.city,
+                userId: req.userId,
+                WeekdaysWorking: body.WeekdaysWorking,
+                WeekendWorking: body.WeekendWorking,
+                upiQrUrl,
+                Facebook: body.Facebook,
+                Instagram: body.Instagram,
+                Logo: logo
+            },
+        });
+        res.status(StatusCode.SUCCESS).json(restaurantDetails);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(StatusCode.BADREQ).json({ msg: 'Internal server error' });
+    }
 });
 exports.restaurantDetails = restaurantDetails;
 const menuUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -206,14 +219,25 @@ const restaurantMenu = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 city: true,
                 upiQrUrl: true,
                 WeekdaysWorking: true,
-                WeekendWorking: true
+                WeekendWorking: true,
+                Logo: true,
+                Instagram: true,
+                Facebook: true
+            }
+        });
+        const resContact = yield prisma.user.findFirst({
+            where: {
+                id: restaurantId
+            },
+            select: {
+                email: true,
             }
         });
         if (!menus.length) {
             res.status(404).json({ message: "No menus found for this restaurant." });
             return;
         }
-        res.status(200).json({ menus, resName });
+        res.status(200).json({ menus, resName, resContact });
     }
     catch (error) {
         console.error("Error fetching menus:", error);
