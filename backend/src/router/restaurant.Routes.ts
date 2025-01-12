@@ -31,7 +31,11 @@ restaurantRouter.use(express.json({ limit: "10mb" }));
 restaurantRouter.use(express.urlencoded({ limit: "10mb", extended: true }));
 restaurantRouter.post("/signup", signup);
 restaurantRouter.post("/signin", signin);
-restaurantRouter.post("/onboarding",authMiddleware,upload.single("upiQr"),restaurantDetails)
+
+restaurantRouter.post("/onboarding",authMiddleware,upload.fields([{name:"upiQr",maxCount:1},{name:"Logo",maxCount:1}]),restaurantDetails)
+
+
+//upload.fields([{ name: 'file1', maxCount: 1 }, { name: 'file2', maxCount: 1 }])
 
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
 // restaurantRouter.post("/qrcode",authMiddleware,upload.single('upiqr'),upiqrupload)
