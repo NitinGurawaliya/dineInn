@@ -10,12 +10,14 @@ export default function RestaurantDetails() {
   const [city, setCity] = useState('')
   const [WeekdaysWorking, setWeekdaysWorking] = useState('')
   const [WeekendWorking, setWeekendWorking] = useState('')
-  const [upiQr,setUpiQr] = useState<File | null>(null)
+  const [upiQr,setUpiQr] = useState<File | null>(null);
+  const[instagram,setInstagram] = useState('');
+  const [facebook,setFacebook] = useState('');
+  const[logo,setLogo] = useState<File |null> (null)
   const navigate = useNavigate()
 
   async function handleSubmit(event:React.FormEvent) {
     event.preventDefault()
-    console.log({ restaurantName, contactNum, city, WeekdaysWorking, WeekendWorking })
 
     const restaurantData = new FormData()
 
@@ -24,9 +26,14 @@ export default function RestaurantDetails() {
     restaurantData.append('city', city);
     restaurantData.append('WeekdaysWorking', WeekdaysWorking);
     restaurantData.append('WeekendWorking', WeekendWorking);
-  if(upiQr){
-    restaurantData.append('upiQr',upiQr)
-  }
+    restaurantData.append('Instagram',instagram);
+    restaurantData.append('Facebook',facebook)
+    if(upiQr){
+      restaurantData.append('upiQr',upiQr)
+    }
+    if(logo){
+      restaurantData.append('Logo',logo)
+    }
 
      await axios.post(`${BACKEND_URL}/api/v1/restaurant/onboarding`,
       restaurantData
@@ -40,7 +47,7 @@ export default function RestaurantDetails() {
   } 
 
   return (
-    <div className="min-h-screen bg-gray-900 py-0 flex flex-col justify-center sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md lg:max-w-4xl">
         <div className="relative">
           <div className="absolute top-0 left-0 mt-8">
@@ -57,8 +64,7 @@ export default function RestaurantDetails() {
         <div className="bg-gray-800 pt-2 pb-4 px-4 shadow sm:rounded-lg sm:px-10">
         <h2 className="mt-6 mb-6 text-center text-3xl font-extrabold text-yellow-400">Enter Your Business  Details</h2>
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
+          <div>
                 <label htmlFor="restaurantName" className="block text-sm font-medium text-gray-300">
                   Business Name
                 </label>
@@ -74,6 +80,29 @@ export default function RestaurantDetails() {
                   />
                 </div>
               </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+            <div>
+                <label htmlFor="contactNum" className="block text-sm font-medium text-gray-300">
+                  Business Logo  
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="contactNum"
+                    accept='image/'
+                    type="file"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                    
+                    onChange={(e)=>{
+                      if(e.target.files){
+                        setLogo(e.target.files[0])
+                      }
+                    } }
+                  />
+                </div>
+              </div>
+
 
               <div>
                 <label htmlFor="contactNum" className="block text-sm font-medium text-gray-300">
@@ -81,12 +110,10 @@ export default function RestaurantDetails() {
                 </label>
                 <div className="mt-1">
                   <input
-                    id="contactNum"
-                    name="contactNum"
-                    type="tel"
+                    id="logo"
+                   
                     required
                     className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
-                    value={contactNum}
                     onChange={(e) => setContactNum(e.target.value)}
                   />
                 </div>
@@ -169,7 +196,53 @@ export default function RestaurantDetails() {
                   />
                 </div>
               </div>
+
+              <div>
+                <label htmlFor="weekendHours" className="block text-sm font-medium text-gray-300">
+                  Instagram Url
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="weekendHours"
+                    name="weekendHours"
+                    type="text"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                    value={instagram}
+                    onChange={(e) => setInstagram(e.target.value)}
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="weekendHours" className="block text-sm font-medium text-gray-300">
+                  Facebook Url
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="weekendHours"
+                    name="weekendHours"
+                    type="text"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                    value={facebook}
+                    onChange={(e) => setFacebook(e.target.value)}
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
             </div>
+
+            <div className="mt-6">
+            <p className="text-center text-sm text-yellow-400">
+              * It will take only 1 min to create your menu website. Please keep your menu images or menu card ready for upload.
+            </p>
+          </div>
+
+
+
+            
 
             <div>
               <button
@@ -181,11 +254,7 @@ export default function RestaurantDetails() {
             </div>
           </form>
 
-          <div className="mt-6">
-            <p className="text-center text-sm text-yellow-400">
-              * It will take only 1 min to create your menu website. Please keep your menu images or menu card ready for upload.
-            </p>
-          </div>
+          
         </div>
       </div>
     </div>
