@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Footer from "./Footer";
 import { BACKEND_URL, FRONTEND_URL } from "../config";
 import BottomNavbar from "./BottomNav";
+import BlogSkeleton from "./Skeleton";
 
 interface MenuItem {
   id: number;
@@ -25,7 +26,7 @@ const RestaurantMenu = () => {
   const[instagram,setInstagram] = useState("")
   const[facebook,setFacebook ] = useState("")
   const[email,setEmail ] = useState('')
-
+  const [loading,setLoading] = useState(true)
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -38,6 +39,7 @@ const RestaurantMenu = () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/v1/restaurant/${id}`);
       const link = `${FRONTEND_URL}/menu/${id}`;
+      setLoading(true)
       setLink(link)
       setMenuItems(res.data.menus);
       setRestaurantName(res.data.resName.restaurantName);
@@ -50,7 +52,7 @@ const RestaurantMenu = () => {
       setFacebook(res.data.resName.Facebook)
       setLogo(res.data.resName.Logo)
       setEmail(res.data.resContact.email)
-
+      setLoading(false)
 
       console.log(weekdayHours)
     } catch (error) {
@@ -102,6 +104,12 @@ const RestaurantMenu = () => {
     setTouchStart(null);
     setTouchEnd(null);
   };
+
+  if(loading){
+    return<div>
+      <BlogSkeleton />
+    </div>
+  }
 
   return (
     <div>
