@@ -18,7 +18,7 @@ const Footer:React.FC<FooterProps>= ({weekdayHours,weekendHours,email,contact,in
         <div>
           <h3 className="text-lg font-bold mb-4">ABOUT US</h3>
           <button onClick={()=>{
-            const url = `https://www.instagram.com/?${instagram}`
+            const url = `https://www.instagram.com/${instagram}`
              window.open(url, '_blank');
           }} className="p-4">
             <FaInstagram size={33 } />
