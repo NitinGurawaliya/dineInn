@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config";
 export default function MenuUpload() {
   const [menuImages, setMenuImages] = useState<File[]>([]); // Updated for multiple files
   const [title, setTitle] = useState("");
+
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,7 +30,9 @@ export default function MenuUpload() {
       const uploadPromises = menuImages.map((file) => {
         const formData = new FormData();
         formData.append("image", file); 
-        formData.append("title", title);
+        formData.append("title", title); 
+
+
 
         return axios.post(`${BACKEND_URL}/api/v1/restaurant/menu/upload`, formData, {
           headers: {
@@ -82,10 +85,12 @@ export default function MenuUpload() {
           </div>
           <input
             className="p-2 w-full border border-yellow-400 rounded-lg"
-            placeholder="Enter menu category"
+            placeholder="Enter background color"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
+          
           <button
             type="submit"
             disabled={uploading}
