@@ -26,7 +26,9 @@ const RestaurantMenu = () => {
   const[instagram,setInstagram] = useState("")
   const[facebook,setFacebook ] = useState("")
   const[email,setEmail ] = useState('')
-  const [loading,setLoading] = useState(true)
+  const [loading,setLoading] = useState(true);
+  const[bgColor,setBgcolor]= useState("")
+  const[componentColor,setComponentColor] = useState("")
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -51,7 +53,10 @@ const RestaurantMenu = () => {
       setInstagram(res.data.resName.Instagram)
       setFacebook(res.data.resName.Facebook)
       setLogo(res.data.resName.Logo)
-      setEmail(res.data.resContact.email)
+      setEmail(res.data.resContact.email);
+      setBgcolor(res.data.resName.bgColor);
+      setComponentColor(res.data.resName.componentColor)
+
       setLoading(false)
 
       console.log(weekdayHours)
@@ -113,7 +118,7 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-white p-4 md:p-b-4">
+      <div className={`min-h-screen bg-${bgColor} p-4 md:p-b-4`}>
         <div className="max-w-6xl mx-auto">
             <div onClick={()=>{window.location.reload()}} className="flex cursor-pointer flex-col items-center mb-6">
               {<img
@@ -122,11 +127,11 @@ const RestaurantMenu = () => {
                 className="w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 "
               />}
             </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-orange-800 font-serif drop-shadow-lg">
+          <h1 className={`text-3xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-${componentColor}-400 font-serif drop-shadow-lg`}>
             {restaurantName ? restaurantName.toUpperCase() : "Loading..."}
           </h1>
 
-          <h1 className="text-xl md:text-2xl mb-4 md:mb-8 font-extrabold text-center text-black font-serif drop-shadow-lg">
+          <h1 className={`text-xl md:text-2xl mb-4 md:mb-8 font-extrabold text-center text-${componentColor}-400 font-serif drop-shadow-lg`}>
             📍 {location ?.toUpperCase()}
           </h1>
           <div>
@@ -185,7 +190,7 @@ const RestaurantMenu = () => {
       )}
 
       <Footer facebook={facebook} instagram={instagram} contact = {contact} email= {email} weekdayHours={weekdayHours} weekendHours={weekendHours}  />
-      <BottomNavbar  link={link} upiQr={upiQr||"QR code not available"} contact={contact || "No contact available"} />
+      <BottomNavbar componentColor={componentColor}  link={link} upiQr={upiQr||"QR code not available"} contact={contact || "No contact available"} />
     </div>
   );
 };
