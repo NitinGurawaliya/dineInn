@@ -113,7 +113,9 @@ const restaurantDetails = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 upiQrUrl,
                 Facebook: body.Facebook,
                 Instagram: body.Instagram,
-                Logo: logo
+                Logo: logo,
+                bgColor: body.bgColor,
+                componentColor: body.componentColor
             },
         });
         res.status(StatusCode.SUCCESS).json(restaurantDetails);
@@ -128,8 +130,8 @@ const menuUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const userId = req.userId; // Comes from middleware
         const restaurantId = req.restaurantId; // Comes from middleware
-        const title = req.body.title;
         console.log(restaurantId);
+        const { bgColor, componentColor } = req.body;
         if (!userId) {
             res.status(401).json({ error: "Unauthorized: User not logged in" });
             return;
@@ -142,7 +144,6 @@ const menuUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             data: {
                 restaurantDetailsId: restaurantId, // Use restaurantId from middleware
                 imageUrl: file.path,
-                title,
             },
         })));
         res.status(200).json({ menu: uploadedMenus });
@@ -222,7 +223,9 @@ const restaurantMenu = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 WeekendWorking: true,
                 Logo: true,
                 Instagram: true,
-                Facebook: true
+                Facebook: true,
+                bgColor: true,
+                componentColor: true
             }
         });
         const resContact = yield prisma.user.findFirst({
