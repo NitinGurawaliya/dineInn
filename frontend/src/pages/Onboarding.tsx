@@ -14,6 +14,8 @@ export default function RestaurantDetails() {
   const[instagram,setInstagram] = useState('');
   const [facebook,setFacebook] = useState('');
   const[logo,setLogo] = useState<File |null> (null)
+  const[bgColor,setbgColor] = useState("white");
+  const [componentColor,setComponentColor] =useState("black")
   const navigate = useNavigate()
 
   async function handleSubmit(event:React.FormEvent) {
@@ -28,6 +30,8 @@ export default function RestaurantDetails() {
     restaurantData.append('WeekendWorking', WeekendWorking);
     restaurantData.append('Instagram',instagram);
     restaurantData.append('Facebook',facebook)
+    restaurantData.append("bgColor",bgColor);
+    restaurantData.append("componentColor",componentColor)
     if(upiQr){
       restaurantData.append('upiQr',upiQr)
     }
@@ -216,7 +220,7 @@ export default function RestaurantDetails() {
               </div>
 
               <div>
-                <label htmlFor="weekendHours" className="block text-sm font-medium text-gray-300">
+                <label  className="block text-sm font-medium text-gray-300">
                   Facebook Url
                 </label>
                 <div className="mt-1">
@@ -232,6 +236,42 @@ export default function RestaurantDetails() {
                   />
                 </div>
               </div>
+
+              <div>
+                <label  className="block text-sm font-medium text-gray-300">
+                  Enter background colour
+                </label>
+                <div className="mt-1">
+                  <input
+                   
+                    type="text"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                    value={bgColor}
+                    onChange={(e) => setbgColor(e.target.value)}
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
+
+
+              <div>
+                <label  className="block text-sm font-medium text-gray-300">
+                  Enter Component Color
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="weekendHours"
+                    name="weekendHours"
+                    type="text"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm bg-gray-700 text-white"
+                    value={componentColor}
+                    onChange={(e) => setComponentColor(e.target.value)}
+                    placeholder="Optional"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="mt-6">
@@ -239,11 +279,6 @@ export default function RestaurantDetails() {
               * It will take only 1 min to create your menu website. Please keep your menu images or menu card ready for upload.
             </p>
           </div>
-
-
-
-            
-
             <div>
               <button
                 type="submit"
