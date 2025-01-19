@@ -20,5 +20,7 @@ exports.restaurantOnboardingSchema = zod_1.default.object({
     WeekdaysWorking: zod_1.default.string().optional(),
     WeekendWorking: zod_1.default.string().optional(),
     Instagram: zod_1.default.string().optional(),
-    Facebook: zod_1.default.string().optional()
+    Facebook: zod_1.default.string().optional(),
+    bgColor: zod_1.default.string().optional(),
+    componentColor: zod_1.default.string().optional()
 });
