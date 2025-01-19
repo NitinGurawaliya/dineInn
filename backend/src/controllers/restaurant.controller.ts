@@ -142,7 +142,6 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
       const userId = req.userId; // Comes from middleware
       const restaurantId = req.restaurantId; // Comes from middleware
       console.log(restaurantId)
-      const{bgColor,componentColor} = req.body;
   
       if (!userId) {
         res.status(401).json({ error: "Unauthorized: User not logged in" });
