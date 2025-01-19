@@ -20,6 +20,9 @@ export const restaurantOnboardingSchema  = zod.object({
     WeekdaysWorking:zod.string().optional(),
     WeekendWorking:zod.string().optional(),
     Instagram:zod.string().optional(),
-    Facebook:zod.string().optional()
+    Facebook:zod.string().optional(),
+    bgColor:zod.string().optional(),
+    componentColor:zod.string().optional()
+
 
 })      
