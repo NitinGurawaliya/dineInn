@@ -123,7 +123,10 @@ export const restaurantDetails: RequestHandler = async (req, res): Promise<void>
           upiQrUrl,
           Facebook: body.Facebook,
           Instagram: body.Instagram,
-          Logo:logo
+          Logo:logo,
+          bgColor:body.bgColor,
+          componentColor:body.componentColor
+          
         },
       });
   
@@ -138,8 +141,8 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
     try {
       const userId = req.userId; // Comes from middleware
       const restaurantId = req.restaurantId; // Comes from middleware
-      const title = req.body.title;
       console.log(restaurantId)
+      const{bgColor,componentColor} = req.body;
   
       if (!userId) {
         res.status(401).json({ error: "Unauthorized: User not logged in" });
@@ -157,7 +160,6 @@ export const menuUpload: RequestHandler = async (req, res): Promise<void> => {
             data: {
               restaurantDetailsId: restaurantId, // Use restaurantId from middleware
               imageUrl: file.path,
-              title,
             },
           })
         )
@@ -254,7 +256,9 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
                 WeekendWorking:true,
                 Logo:true,
                 Instagram:true,
-                Facebook:true
+                Facebook:true,
+                bgColor:true,
+                componentColor:true
             }
         })
 
