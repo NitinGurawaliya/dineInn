@@ -27,15 +27,19 @@ model RestaurantDetails {
   Logo            String?
   Instagram       String?
   Facebook        String?
+  bgColor     String?  // Background color (optional)
+  componentColor String?  // Navbar color (optional)
   user           User    @relation(fields: [userId], references: [id]) 
 }
 
 model Menu {
   id                 Int               @id @default(autoincrement())
   imageUrl           String
-  title              String?
+  title              String?  
   restaurantDetailsId Int
   restaurantDetails  RestaurantDetails @relation(fields: [restaurantDetailsId], references: [id])
 }
+
+
 
 
