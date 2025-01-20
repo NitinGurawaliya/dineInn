@@ -118,7 +118,10 @@ const RestaurantMenu = () => {
 
   return (
     <div>
-      <div className={`min-h-screen bg-${bgColor} p-4 md:p-b-4`}>
+      <div className="min-h-screen  p-4 md:p-b-4"
+      style={{
+        backgroundColor:bgColor,
+      }}>
         <div className="max-w-6xl mx-auto">
             <div onClick={()=>{window.location.reload()}} className="flex cursor-pointer flex-col items-center mb-6">
               {<img
@@ -127,7 +130,9 @@ const RestaurantMenu = () => {
                 className="w-24 h-24 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 "
               />}
             </div>
-          <h1 className={`text-3xl md:text-4xl font-extrabold text-center mb-4 md:mb-6 text-${componentColor}-400 font-serif drop-shadow-lg`}>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-4 md:mb-6  font-serif drop-shadow-lg" style={
+           { color:componentColor}
+          }>
             {restaurantName ? restaurantName.toUpperCase() : "Loading..."}
           </h1>
 
