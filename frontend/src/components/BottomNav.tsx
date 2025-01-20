@@ -15,7 +15,10 @@ const BottomNavbar: React.FC<BottomNavProps> = ({ contact, upiQr,link ,component
   const[isShareDialogOpen,setIsShareDialogOpen] = useState(false)
 
   return (
-    <div className={`fixed bottom-0 left-10 right-10 md:left-80 md:right-80 rounded-full bg-${componentColor}-400 flex justify-around items-center py-3 shadow-md z-10`}>
+    <div className="fixed bottom-0 left-10 right-10 md:left-80 md:right-80 rounded-full flex justify-around items-center py-3 shadow-md z-10"
+    style={{
+      backgroundColor:componentColor
+    }}>
       <button 
         onClick={() => window.location.href = `tel:${contact}`}
         className="flex flex-col items-center text-white hover:opacity-80">
