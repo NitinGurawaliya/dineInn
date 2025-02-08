@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import HomePage from "../components/HomeComponent";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import HomePageSkeleton from "../components/HomeSkeleton";
 
 interface Data{
     id: number,
@@ -31,7 +32,7 @@ export default function Home(){
         resDetails()
     },[])
 
-    if (!data) return <div>Loading...</div>; // Handle loading state properly
+    if (!data) return <div><HomePageSkeleton /> </div>; // Handle loading state properly
 
 
     return <div>
