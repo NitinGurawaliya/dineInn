@@ -214,7 +214,7 @@ export const qrcodeGeneration:RequestHandler = async(req,res) :Promise<void> =>{
         }
     })
 
-    const frontendUrl = `https://dine-inn.vercel.app/menu/${restaurantId}`
+    const frontendUrl = `https://dine-inn.vercel.app/menu/home/${restaurantId}`
 
     QRCode.toDataURL(frontendUrl,function(err,url){
         if(err) {
