@@ -8,6 +8,7 @@ const LazyOnboarding = lazy(()=>import("./pages/Onboarding"))
 const LazyMenuUpload = lazy(()=>import("./components/UploadMenu"))
 const LazyMyMenu = lazy(()=>import("./components/MyMenu"))
 const LazyQrcode = lazy(()=>import("./components/Qrcode"))
+const LazyHomePage = lazy(()=>import("./pages/Home"))
 const LazyRestaurantMenu = lazy(()=>import("./components/RestaurantMenu"))
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
               <Route path="/onboarding/upload/menu" element={<LazyMenuUpload />} />
               <Route path="/dashboard" element={<LazyMyMenu />} />
               <Route path="/qrCode" element={<LazyQrcode />} />
+              <Route path="/menu/home/:id" element={<LazyHomePage />} />
               <Route path="/menu/:id" element = {<LazyRestaurantMenu />} />
             </Routes>
         </Suspense>
