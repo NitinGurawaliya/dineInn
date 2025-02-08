@@ -161,7 +161,7 @@ const RestaurantMenu = () => {
           className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
         />
         {/* Expand Icon at the Top Right */}
-        <div className="absolute top-2 right-2 bg-none p-2 rounded-full shadow-md cursor-pointer">
+        <div className="absolute top-2 right-2  p-2 rounded-full shadow-md cursor-pointer">
           <Fullscreen />
         </div>
       </div>
