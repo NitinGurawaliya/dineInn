@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { BACKEND_URL, FRONTEND_URL } from "../config";
 import BottomNavbar from "./BottomNav";
 import BlogSkeleton from "./Skeleton";
+import { Fullscreen } from "lucide-react";
 
 interface MenuItem {
   id: number;
@@ -161,7 +162,7 @@ const RestaurantMenu = () => {
         />
         {/* Expand Icon at the Top Right */}
         <div className="absolute top-2 right-2 bg-none p-2 rounded-full shadow-md cursor-pointer">
-          ⛶
+          <Fullscreen />
         </div>
       </div>
 
