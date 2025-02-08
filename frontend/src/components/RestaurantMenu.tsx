@@ -154,15 +154,16 @@ const RestaurantMenu = () => {
     >
       {/* Image */}
       <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
+      <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md cursor-pointer">
+        ⛶
+        </div>
         <img
           src={item.imageUrl}
           alt={item.title}
           className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
         />
         {/* Fullscreen Icon */}
-        <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md cursor-pointer">
-          🔍
-        </div>
+        
       </div>
 
       {/* Title */}
