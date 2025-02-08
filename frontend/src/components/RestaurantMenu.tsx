@@ -144,31 +144,37 @@ const RestaurantMenu = () => {
     </div>
 
           {/* Menu Grid */}
-          <div className="grid grid-cols-1 m-5 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {menuItems.map((item, index) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105"
-                onClick={() => openFullscreen(index)}
-              >
-                {/* Image */}
-                <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
-                  />
-                </div>
+          {/* Menu Grid */}
+<div className="grid grid-cols-1 m-5 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+  {menuItems.map((item, index) => (
+    <div
+      key={item.id}
+      className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl hover:scale-105 relative"
+      onClick={() => openFullscreen(index)}
+    >
+      {/* Image */}
+      <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
+        <img
+          src={item.imageUrl}
+          alt={item.title}
+          className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
+        />
+        {/* Fullscreen Icon */}
+        <div className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md cursor-pointer">
+          🔍
+        </div>
+      </div>
 
-                {/* Title */}
-                <div className="p-4 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100">
-                  <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center truncate">
-                    {item.title}
-                  </h2>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Title */}
+      <div className="p-4 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center truncate">
+          {item.title}
+        </h2>
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
       </div>
 
