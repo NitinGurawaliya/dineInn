@@ -282,30 +282,3 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
       }
     
 }
-
-// export const upiqrupload:RequestHandler = async(req,res):Promise<void>=>{
-
-//     const userId = req.userId;
-
-//     if(!userId){
-//         res.status(StatusCode.NOTPERMISSION).json({error:"User not authorized"})
-//         return;
-//     }
-
-//     if(!req.file){
-//         res.status(400).json({ error: "No image provided" });
-//       return;
-//     }
-
-//     const file = req.file; // Single file is available directly on `req.file`
-
-//     const upiqr = await prisma.upiQr.create({
-//         data:{
-//             restaurantDetailsId:req.restaurantId,
-//             qrCodeUrl:file.path
-//         }
-//     })
-    
-    
-
-// }
