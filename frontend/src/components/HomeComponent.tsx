@@ -44,7 +44,7 @@ const   HomePage: React.FC<RestaurantHomePageProps> = ({ restaurantName, id, ins
                     <span className="sr-only">{location}</span>
                 </Link> */}
                 <button onClick={()=>{
-                     const url = `https://api.whatsapp.com/send?phone=${ whatsapp}`
+                     const url = `https://api.whatsapp.com/send?phone=${whatsapp}`
                      window.open(url,'_blank');
                 }} className="text-black hover:opacity-75 transition-opacity" >
                     <MessageCircle className="w-7 h-7" />
