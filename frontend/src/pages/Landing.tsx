@@ -12,15 +12,7 @@ export default function LandingPage() {
           <nav className=''> 
             <ul className="flex space-x-6">
 
-            <Link to={"/signup"}>
-                <li><button  className="bg-teal-400 border-2 text-gray-900 px-8 py-4 rounded-full hover:bg-white transition duration-300">Sign Up</button> </li>
-              </Link>
-              <Link to={"/signup"}>
-                <li><button  className="bg-teal-400 border-2 text-gray-900 px-8 py-4 rounded-full hover:bg-white transition duration-300">Sign Up</button> </li>
-              </Link>
-              <Link to={"/signup"}>
-                <li><button  className="bg-teal-400 border-2 text-gray-900 px-8 py-4 rounded-full hover:bg-white transition duration-300">Sign Up</button> </li>
-              </Link>
+           
               
 
               <Link to={"/signup"}>
