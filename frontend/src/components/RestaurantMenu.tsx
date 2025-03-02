@@ -154,11 +154,11 @@ const RestaurantMenu = () => {
       onClick={() => openFullscreen(index)}
     >
       {/* Image */}
-      <div className="relative w-full ">
+      <div className="relative w-full pt-[141.4%] bg-gradient-to-t from-orange-100 via-amber-50 to-white">
         <img
           src={item.imageUrl}
           alt={item.title}
-          className="absolute top-0 left-0 w-full h-full  rounded-t-lg"
+          className="absolute top-0 left-0 w-full h-full object-contain rounded-t-lg"
         />
         {/* Expand Icon at the Top Right */}
         <div className="absolute top-2 right-2  p-2 rounded-full shadow-md cursor-pointer">
