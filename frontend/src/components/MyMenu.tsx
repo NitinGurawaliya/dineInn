@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import { Link } from "react-router-dom";
-import { Edit, Trash2, Plus, Settings, QrCode, Upload, Save, X, Eye, Download, Menu as MenuIcon } from "lucide-react";
+import { Edit, Trash2, Plus, Settings, QrCode, Upload, Save, X, Menu as MenuIcon } from "lucide-react";
 import Button from "./ui/Button";
 import { toPng } from "html-to-image";
 
@@ -117,7 +117,7 @@ const MyMenu = () => {
           });
           // Assume backend returns { qrCodeUrl: string }
           setQrCodeUrl(res.data.qrCodeUrl || null);
-        } catch (err) {
+        } catch (error:any) {
           setQrCodeUrl(null);
         }
       };
