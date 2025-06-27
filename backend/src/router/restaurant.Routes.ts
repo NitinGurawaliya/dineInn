@@ -1,7 +1,7 @@
 import { Router,Request,Response } from "express";
 import express from "express"
 
-import { menuUpload, myRestaurantMenu, qrcodeGeneration, restaurantDetails, restaurantMenu, signin, signup} from "../controllers/restaurant.controller"
+import { menuUpload, myRestaurantMenu, qrcodeGeneration, restaurantDetails, restaurantMenu, signin, signup, getRestaurantDetails, updateRestaurantDetails, updateMenuItem, deleteMenuItem, deleteRestaurant} from "../controllers/restaurant.controller"
 import multer from "multer"
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinary from "../cloudinaryConfig"
@@ -33,16 +33,16 @@ restaurantRouter.post("/signup", signup);
 restaurantRouter.post("/signin", signin);
 
 restaurantRouter.post("/onboarding",authMiddleware,upload.fields([{name:"upiQr",maxCount:1},{name:"Logo",maxCount:1}]),restaurantDetails)
-
-
-//upload.fields([{ name: 'file1', maxCount: 1 }, { name: 'file2', maxCount: 1 }])
-
 restaurantRouter.post('/menu/upload',authMiddleware,upload.array('image',10),menuUpload );
-// restaurantRouter.post("/qrcode",authMiddleware,upload.single('upiqr'),upiqrupload)
 restaurantRouter.get("/generate-qr-code/:restaurantId",authMiddleware,qrcodeGeneration)
 restaurantRouter.get("/menu/:restaurantId",authMiddleware,myRestaurantMenu);
 restaurantRouter.get("/:restaurantId",restaurantMenu);
 
-
+// New CRUD routes
+restaurantRouter.get("/dashboard/details", authMiddleware, getRestaurantDetails);
+restaurantRouter.put("/dashboard/update", authMiddleware, upload.fields([{name:"upiQr",maxCount:1},{name:"Logo",maxCount:1}]), updateRestaurantDetails);
+restaurantRouter.put("/dashboard/menu/:menuId", authMiddleware, upload.single('image'), updateMenuItem);
+restaurantRouter.delete("/dashboard/menu/:menuId", authMiddleware, deleteMenuItem);
+restaurantRouter.delete("/dashboard/delete", authMiddleware, deleteRestaurant);
 
 export default restaurantRouter;
