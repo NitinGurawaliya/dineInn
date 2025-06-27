@@ -8,5 +8,6 @@
         "menudata",
         "qrcode",
         "upiqr"
-    ]
+    ],
+    "workbench.colorTheme": "Visual Studio Dark"
 }
