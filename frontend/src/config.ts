@@ -1,4 +1,2 @@
-export const BACKEND_URL = "https://dineinn-aah4.onrender.com"
+export const BACKEND_URL = "http://localhost:4005"
 export const FRONTEND_URL = "https://dine-inn.vercel.app"
-
-// "http://localhost:4004"
