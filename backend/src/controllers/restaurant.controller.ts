@@ -282,3 +282,175 @@ export const restaurantMenu:RequestHandler = async(req,res):Promise<void>=>{
       }
     
 }
+
+// Get restaurant details for dashboard
+export const getRestaurantDetails: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const restaurantId = req.restaurantId;
+    
+    const restaurantDetails = await prisma.restaurantDetails.findUnique({
+      where: {
+        id: restaurantId,
+      },
+      include: {
+        menus: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!restaurantDetails) {
+      res.status(404).json({ error: "Restaurant not found" });
+      return;
+    }
+
+    res.status(200).json(restaurantDetails);
+  } catch (error) {
+    console.error("Error fetching restaurant details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Update restaurant details
+export const updateRestaurantDetails: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const restaurantId = req.restaurantId;
+    const body = req.body;
+    const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+
+    // Safely access files
+    const upiQrUrl = files?.['upiQr']?.[0]?.path || undefined;
+    const logo = files?.['Logo']?.[0]?.path || undefined;
+
+    const updateData: any = {
+      restaurantName: body.restaurantName,
+      contactNum: body.contactNum,
+      city: body.city,
+      WeekdaysWorking: body.WeekdaysWorking,
+      WeekendWorking: body.WeekendWorking,
+      Facebook: body.Facebook,
+      Instagram: body.Instagram,
+      bgColor: body.bgColor,
+      componentColor: body.componentColor,
+    };
+
+    // Only update file fields if new files are provided
+    if (upiQrUrl) updateData.upiQrUrl = upiQrUrl;
+    if (logo) updateData.Logo = logo;
+
+    const updatedRestaurant = await prisma.restaurantDetails.update({
+      where: {
+        id: restaurantId,
+      },
+      data: updateData,
+    });
+
+    res.status(200).json(updatedRestaurant);
+  } catch (error) {
+    console.error("Error updating restaurant details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Update menu item
+export const updateMenuItem: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const { menuId } = req.params;
+    const { title } = req.body;
+    const files = req.files as { [key: string]: Express.Multer.File[] } | undefined;
+    const restaurantId = req.restaurantId;
+
+    // Verify the menu item belongs to the restaurant
+    const existingMenu = await prisma.menu.findFirst({
+      where: {
+        id: parseInt(menuId),
+        restaurantDetailsId: restaurantId,
+      },
+    });
+
+    if (!existingMenu) {
+      res.status(404).json({ error: "Menu item not found" });
+      return;
+    }
+
+    const updateData: any = {};
+    if (title) updateData.title = title;
+    
+    const imageUrl = files?.['image']?.[0]?.path;
+    if (imageUrl) updateData.imageUrl = imageUrl;
+
+    const updatedMenu = await prisma.menu.update({
+      where: {
+        id: parseInt(menuId),
+      },
+      data: updateData,
+    });
+
+    res.status(200).json(updatedMenu);
+  } catch (error) {
+    console.error("Error updating menu item:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Delete menu item
+export const deleteMenuItem: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const { menuId } = req.params;
+    const restaurantId = req.restaurantId;
+
+    // Verify the menu item belongs to the restaurant
+    const existingMenu = await prisma.menu.findFirst({
+      where: {
+        id: parseInt(menuId),
+        restaurantDetailsId: restaurantId,
+      },
+    });
+
+    if (!existingMenu) {
+      res.status(404).json({ error: "Menu item not found" });
+      return;
+    }
+
+    await prisma.menu.delete({
+      where: {
+        id: parseInt(menuId),
+      },
+    });
+
+    res.status(200).json({ message: "Menu item deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting menu item:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Delete restaurant (cascade delete)
+export const deleteRestaurant: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const restaurantId = req.restaurantId;
+    const userId = req.userId;
+
+    // Delete restaurant and all associated data
+    await prisma.restaurantDetails.delete({
+      where: {
+        id: restaurantId,
+      },
+    });
+
+    // Optionally delete user account as well
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    res.status(200).json({ message: "Restaurant deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting restaurant:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
