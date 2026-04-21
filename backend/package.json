@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "nodemon",
     "build": "tsc",
     "start": "node dist/index.js",
-    "vercel-build":"npm run build"
+    "vercel-build": "prisma generate && npm run build"
   },
   "keywords": [],
   "author": "",
